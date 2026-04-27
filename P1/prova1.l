@@ -2,35 +2,37 @@
 #include "prova1.tab.h"
 #include <stdlib.h>
 #include <string.h>
-
-void yyerror(const char *msg);
 %}
 
 %option noyywrap
 
 %%
 
-[ \t\r]+        {  }
+"//".*\n          { return EOL; }
 
-\n              { return EOL; }
+[ \t]+            { }
 
-"+"             { return PLUS; }
-"-"             { return MINUS; }
-"*"             { return TIMES; }
-"/"             { return DIV; }
-"="             { return ASSIGN; }
-"("             { return LPAREN; }
-")"             { return RPAREN; }
-","             { return COMMA; }
+\r?\n             { return EOL; }
 
-"print"         { return PRINT; }
-"concat"        { return CONCAT; }
-"length"        { return LENGTH; }
+"+"               { return PLUS; }
+"-"               { return MINUS; }
+"*"               { return TIMES; }
+"/"               { return DIV; }
+"="               { return ASSIGN; }
+"("               { return LPAREN; }
+")"               { return RPAREN; }
+","               { return COMMA; }
 
-[0-9]+          { yylval.ival = atoi(yytext); return NUM; }
-\"[^\"]*\"      { yylval.sval = strdup(yytext); return STRING; }
-[a-zA-Z_][a-zA-Z0-9_]* { yylval.sval = strdup(yytext); return IDENT; }
+"print"           { return PRINT; }
+"concat"          { return CONCAT; }
+"length"          { return LENGTH; }
 
-.               { return ERROR; }
+[0-9]+            { return NUM; }
+
+\"[^\"]*\"        { return STRING; }
+
+[a-zA-Z_][a-zA-Z0-9_]* { return IDENT; }
+
+. { /* ignora */ }
 
 %%
