@@ -12,8 +12,6 @@ void yyerror(const char *msg);
 
 [ \t\r]+        {  }
 
-"\\"            { int c; while((c=input()) != '\n' && c != EOF); } 
-
 \n              { return EOL; }
 
 "+"             { return PLUS; }
